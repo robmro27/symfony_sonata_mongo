@@ -19,6 +19,17 @@ class AppKernel extends Kernel
             
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new Acme\StoreBundle\AcmeStoreBundle(),
+            
+            
+            new Sonata\CoreBundle\SonataCoreBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            
+            
+            new Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle(),
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            
+            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
