@@ -27,7 +27,7 @@ class BlogPost
     /**
      * @MongoDB\Field(type="bool")
      */
-    private $draft;
+    private $draft = false;
 
 
     /** @MongoDB\ReferenceOne(targetDocument="Category", inversedBy="posts") */
