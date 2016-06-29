@@ -20,4 +20,16 @@ services:
         class: AppBundle\Admin\BlogPostAdmin
         arguments: [~, AppBundle\Document\BlogPost, ~]
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Blog post,group: Blog }   
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Blog post,group: Blog }
+            
+    admin.product_category:
+        class: PolcodeProductBundle\Admin\ProductCategoryAdmin
+        arguments: [~, PolcodeProductBundle\Document\ProductCategory, ~]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Categories, group: Products }
+            
+    admin.product:
+        class: PolcodeProductBundle\Admin\ProductAdmin
+        arguments: [~, PolcodeProductBundle\Document\Product, ~]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Products, group: Products }
