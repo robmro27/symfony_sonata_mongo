@@ -116,6 +116,15 @@ knp_menu:
     templating: false
     # the renderer to use, list is also available by default
     default_renderer: twig
+   
+    
+stof_doctrine_extensions:
+    default_locale: en
+    translation_fallback: true
+    mongodb:
+        default:
+            timestampable: true
+            sluggable: true    
     
 fos_user:
     db_driver:      mongodb # can be orm or odm

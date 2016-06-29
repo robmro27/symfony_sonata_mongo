@@ -3,6 +3,7 @@
 namespace PolcodeProductBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @MongoDB\Document
@@ -21,6 +22,12 @@ class Product
     private $name;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @MongoDB\Field(type="string")
+     */
+    private $slug;
+    
+    /**
      * @MongoDB\Field(type="string")
      */
     private $description;
@@ -34,6 +41,31 @@ class Product
     /** @MongoDB\ReferenceOne(targetDocument="ProductCategory", inversedBy="products", cascade={"detach"}) */
     private $category;
     
+    
+    /**
+     * @var date $created
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $created;
+
+    /**
+     * @var date $updated
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable
+     */
+    private $updated;
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="change", field={"title", "description"})
+     */
+    private $contentChanged;
+
     
     /**
      * Get id
@@ -131,5 +163,93 @@ class Product
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return self
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string $slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set created
+     *
+     * @param date $created
+     * @return self
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return date $created
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param date $updated
+     * @return self
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return date $updated
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set contentChanged
+     *
+     * @param date $contentChanged
+     * @return self
+     */
+    public function setContentChanged($contentChanged)
+    {
+        $this->contentChanged = $contentChanged;
+        return $this;
+    }
+
+    /**
+     * Get contentChanged
+     *
+     * @return date $contentChanged
+     */
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
     }
 }

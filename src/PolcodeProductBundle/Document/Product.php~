@@ -3,6 +3,7 @@
 namespace PolcodeProductBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @MongoDB\Document
@@ -21,6 +22,12 @@ class Product
     private $name;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @MongoDB\Field(type="string")
+     */
+    private $slug;
+    
+    /**
      * @MongoDB\Field(type="string")
      */
     private $description;
@@ -31,9 +38,34 @@ class Product
     private $price;
     
 
-    /** @MongoDB\ReferenceOne(targetDocument="ProductCategory") */
+    /** @MongoDB\ReferenceOne(targetDocument="ProductCategory", inversedBy="products", cascade={"detach"}) */
     private $category;
     
+    
+    /**
+     * @var date $created
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $created;
+
+    /**
+     * @var date $updated
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable
+     */
+    private $updated;
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="change", field={"title", "body"})
+     */
+    private $contentChanged;
+
     
     /**
      * Get id
@@ -109,5 +141,49 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Set category
+     *
+     * @param PolcodeProductBundle\Document\ProductCategory $category
+     * @return self
+     */
+    public function setCategory(\PolcodeProductBundle\Document\ProductCategory $category)
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return PolcodeProductBundle\Document\ProductCategory $category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return self
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string $slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

@@ -20,7 +20,7 @@ class ProductCategory {
     private $name;
     
     
-    /** @MongoDB\ReferenceMany(targetDocument="Product") */
+    /** @MongoDB\ReferenceMany(targetDocument="Product", mappedBy="category") */
     private $products;
     
     /**
@@ -53,5 +53,39 @@ class ProductCategory {
     public function getName()
     {
         return $this->name;
+    }
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add product
+     *
+     * @param PolcodeProductBundle\Document\Product $product
+     */
+    public function addProduct(\PolcodeProductBundle\Document\Product $product)
+    {
+        $this->products[] = $product;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param PolcodeProductBundle\Document\Product $product
+     */
+    public function removeProduct(\PolcodeProductBundle\Document\Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection $products
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }
