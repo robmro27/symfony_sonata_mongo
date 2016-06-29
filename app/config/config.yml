@@ -96,10 +96,17 @@ sonata_block:
         
 sonata_user:
     security_acl: true
-    manager_type: mongodb # can be orm or mongodb       
+    manager_type: mongodb # can be orm or mongodb
+    admin:
+        user:
+            class: AppBundle\Admin\Model\UserAdmin
     class:
         user: AppBundle\Document\User
         group: AppBundle\Document\Group
+
+#sonata_admin:
+#    class:
+#        user: 
             
 knp_menu:
     # use "twig: false" to disable the Twig extension and the TwigRenderer

@@ -2,6 +2,7 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
+    sonata.admin.user.class: UserBundle\Admin\Document\UserAdmin 
 
 services:
 #    service_name:
@@ -19,4 +20,4 @@ services:
         class: AppBundle\Admin\BlogPostAdmin
         arguments: [~, AppBundle\Document\BlogPost, ~]
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Blog post,group: Blog }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Blog post,group: Blog }   
