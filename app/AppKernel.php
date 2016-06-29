@@ -18,8 +18,6 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
-            new Acme\StoreBundle\AcmeStoreBundle(),
-            
             
             new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
