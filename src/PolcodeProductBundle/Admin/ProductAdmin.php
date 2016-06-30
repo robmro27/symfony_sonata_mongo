@@ -20,8 +20,11 @@ class ProductAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text')
-            ->add('description', 'textarea')
+            ->add('translations', 'a2lix_translations_gedmo'
+                    ,array('translatable_class' => "PolcodeProductBundle\Document\Product")
+                    )
+            //->add('name', 'text')
+            //->add('description', 'textarea')
             ->add('price', 'integer')
             ->add('slug', 'text', array(
                 'help' => 'Leave empty for auto update',

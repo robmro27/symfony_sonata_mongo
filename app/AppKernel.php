@@ -23,19 +23,17 @@ class AppKernel extends Kernel
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             
-            
             new Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
             
-            
             new FOS\UserBundle\FOSUserBundle(),
             new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
-            
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-
-            new PolcodeProductBundle\PolcodeProductBundle(),
             
+            new PolcodeProductBundle\PolcodeProductBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            
+            new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

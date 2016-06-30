@@ -83,7 +83,13 @@ doctrine_mongodb:
                     SonataUserBundle: ~
                     FOSUserBundle: ~
                     AppBundle: ~
-    
+                    translatable:
+                        type: annotation
+                        alias: Gedmo
+                        prefix: Gedmo\Translatable\Document
+                        # make sure vendor library location is correct
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                    
 sonata_block:
     default_contexts: [cms]
     blocks:
@@ -124,7 +130,8 @@ stof_doctrine_extensions:
     mongodb:
         default:
             timestampable: true
-            sluggable: true    
+            sluggable: true  
+            translatable: true 
     
 fos_user:
     db_driver:      mongodb # can be orm or odm
@@ -139,3 +146,11 @@ fos_user:
 
     service:
         user_manager: sonata.user.mongodb.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
+        
+a2lix_translation_form:
+    #locale_provider: default       
+    locales: [fr, en, de, pl]          
+    #default_locale: en             
+    #required_locales: [en, pl]        
+    manager_registry: doctrine_mongodb     
+    templating: "A2lixTranslationFormBundle::default.html.twig"         

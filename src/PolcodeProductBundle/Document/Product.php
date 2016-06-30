@@ -4,11 +4,13 @@ namespace PolcodeProductBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 
 /**
  * @MongoDB\Document
+ * @Gedmo\TranslationEntity(class="PolcodeProductBundle\Document\ProductTranslation")
  */
-class Product
+class Product implements Translatable
 {
     
     /**
@@ -18,17 +20,20 @@ class Product
 
     /**
      * @MongoDB\Field(type="string")
+     * @Gedmo\Translatable
      */
     private $name;
 
     /**
      * @Gedmo\Slug(fields={"name"})
      * @MongoDB\Field(type="string")
+     * @Gedmo\Translatable
      */
     private $slug;
     
     /**
      * @MongoDB\Field(type="string")
+     * @Gedmo\Translatable
      */
     private $description;
     
@@ -66,6 +71,18 @@ class Product
      */
     private $contentChanged;
 
+    
+    /**
+    *
+    * @MongoDB\ReferenceMany(targetDocument="PolcodeProductBundle\Document\ProductTranslation", mappedBy="object", cascade={"all"})
+    *
+    */
+    private $translations;
+
+    public function __construct()
+    {
+       $this->translations = new ArrayCollection();
+    }
     
     /**
      * Get id
@@ -251,5 +268,35 @@ class Product
     public function getContentChanged()
     {
         return $this->contentChanged;
+    }
+
+    /**
+     * Add translation
+     *
+     * @param PolcodeProductBundle\Document\ProductTranslation $translation
+     */
+    public function addTranslation(\PolcodeProductBundle\Document\ProductTranslation $translation)
+    {
+        $this->translations[] = $translation;
+    }
+
+    /**
+     * Remove translation
+     *
+     * @param PolcodeProductBundle\Document\ProductTranslation $translation
+     */
+    public function removeTranslation(\PolcodeProductBundle\Document\ProductTranslation $translation)
+    {
+        $this->translations->removeElement($translation);
+    }
+
+    /**
+     * Get translations
+     *
+     * @return \Doctrine\Common\Collections\Collection $translations
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
     }
 }

@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @MongoDB\Document
+ * @Gedmo\TranslationEntity(class="PolcodeProductBundle\Document\ProductTranslation")
  */
 class Product
 {
@@ -18,17 +19,20 @@ class Product
 
     /**
      * @MongoDB\Field(type="string")
+     * @Gedmo\Translatable
      */
     private $name;
 
     /**
      * @Gedmo\Slug(fields={"name"})
      * @MongoDB\Field(type="string")
+     * @Gedmo\Translatable
      */
     private $slug;
     
     /**
      * @MongoDB\Field(type="string")
+     * @Gedmo\Translatable
      */
     private $description;
     
@@ -62,10 +66,22 @@ class Product
      * @var \DateTime $contentChanged
      *
      * @MongoDB\Date
-     * @Gedmo\Timestampable(on="change", field={"title", "body"})
+     * @Gedmo\Timestampable(on="change", field={"title", "description"})
      */
     private $contentChanged;
 
+    
+    /**
+    *
+    * @MongoDB\ReferenceMany(targetDocument="PolcodeProductBundle\Document\ProductTranslation", mappedBy="object", cascade={"all"})
+    *
+    */
+    private $translations;
+
+    public function __construct()
+    {
+       $this->translations = new ArrayCollection();
+    }
     
     /**
      * Get id
@@ -185,5 +201,71 @@ class Product
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set created
+     *
+     * @param date $created
+     * @return self
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return date $created
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param date $updated
+     * @return self
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return date $updated
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set contentChanged
+     *
+     * @param date $contentChanged
+     * @return self
+     */
+    public function setContentChanged($contentChanged)
+    {
+        $this->contentChanged = $contentChanged;
+        return $this;
+    }
+
+    /**
+     * Get contentChanged
+     *
+     * @return date $contentChanged
+     */
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
     }
 }

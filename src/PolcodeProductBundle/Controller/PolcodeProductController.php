@@ -7,7 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use PolcodeProductBundle\Entity\PolcodeProduct;
+use PolcodeProductBundle\Document\Product;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * PolcodeProduct controller.
@@ -20,7 +21,7 @@ class PolcodeProductController extends Controller
      * Lists all PolcodeProduct entities.
      *
      * @Route("/", name="product_index")
-     * 
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')") 
      * @Method("GET")
      */
     public function indexAction()
@@ -41,7 +42,7 @@ class PolcodeProductController extends Controller
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Method("GET")
      */
-    public function showAction(PolcodeProduct $polcodeProduct)
+    public function showAction(Product $polcodeProduct)
     {
 
         return $this->render('polcodeproduct/show.html.twig', array(
@@ -53,15 +54,15 @@ class PolcodeProductController extends Controller
     /**
      * Finds and displays a PolcodeProduct entity by its slug.
      *
-     * @Route("/{slug}", name="product_show_by_slug")
+     * @Route("/show/{slug}", name="product_show_by_slug")
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Method("GET")
      */
     public function showBySlugAction( $slug ) 
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->get('doctrine_mongodb');
         
-        $polcodeProduct = $em->getRepository('PolcodeProductBundle:PolcodeProduct')->findOneBySlug($slug);
+        $polcodeProduct = $em->getRepository('PolcodeProductBundle:Product')->findOneBySlug($slug);
         
         return $this->render('polcodeproduct/show.html.twig', array(
             'polcodeProduct' => $polcodeProduct,
