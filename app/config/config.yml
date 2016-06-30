@@ -137,8 +137,7 @@ fos_user:
     db_driver:      mongodb # can be orm or odm
     firewall_name:  main
     user_class:     AppBundle\Document\User    
-#    user_class:     Sonata\UserBundle\Document\BaseUser
-
+    #user_class:     Sonata\UserBundle\Document\BaseUser
 
     group:
         group_class:   Sonata\UserBundle\Document\BaseGroup
@@ -152,5 +151,5 @@ a2lix_translation_form:
     locales: [fr, en, de, pl]          
     #default_locale: en             
     #required_locales: [en, pl]        
-    manager_registry: doctrine_mongodb     
+    manager_registry: doctrine_mongodb
     templating: "A2lixTranslationFormBundle::default.html.twig"         
