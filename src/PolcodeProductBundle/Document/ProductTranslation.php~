@@ -2,183 +2,31 @@
 
 namespace PolcodeProductBundle\Document;
 
+use Gedmo\Translatable\Document\MappedSuperclass\AbstractPersonalTranslation;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @MongoDB\Document
  */
-class ProductTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\OneLocaleInterface
+class ProductTranslation extends AbstractPersonalTranslation
 {
     
-    //use \A2lix\I18nDoctrineBundle\Doctrine\ORM\Util\Translation;
     
-    /**
-     * @MongoDB\Id
-     */
-    protected $id;
-
-    /**
-     * @MongoDB\Field(type="string")
-     */
-    protected $locale;
-    
-    
-    protected $translatable;
-
-    /** @MongoDB\ReferenceOne(targetDocument="Product", inversedBy="translations", cascade={"detach"}) */
-    private $product;
-    
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getTranslatable()
-    {
-        return $this->translatable;
-    }
-
-    public function setTranslatable($translatable)
-    {
-        $this->translatable = $translatable;
-        return $this;
-    }
-
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-        return $this;
-    }
-    
-    
-    
-    
-    
-    
+//    /** @MongoDB\ReferenceOne(targetDocument="Product", inversedBy="translations", cascade={"persist", "remove"}) */
+//    protected $object;
     
     
     /**
-     * @MongoDB\Field(type="string")
-     */
-    private $name;
-
-    /**
-     * @Gedmo\Slug(fields={"name"})
-     * @MongoDB\Field(type="string")
-     */
-    private $slug;
-    
-    /**
-     * @MongoDB\Field(type="string")
-     */
-    private $description;
-   
-
-    /**
-     * Set name
+     * Convinient constructor
      *
-     * @param string $name
-     * @return self
+     * @param string $locale
+     * @param string $field
+     * @param string $value
      */
-    public function setName($name)
+    public function __construct($locale, $field, $value)
     {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return self
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string $description
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return self
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string $slug
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-
-    /**
-     * Set id
-     *
-     * @param int $id
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * Set object
-     *
-     * @param PolcodeProductBundle\Document\Product $object
-     * @return self
-     */
-    public function setObject(\PolcodeProductBundle\Document\Product $object)
-    {
-        $this->object = $object;
-        return $this;
-    }
-
-    /**
-     * Get object
-     *
-     * @return PolcodeProductBundle\Document\Product $object
-     */
-    public function getObject()
-    {
-        return $this->object;
+        $this->setLocale($locale);
+        $this->setField($field);
+        $this->setContent($value);
     }
 }

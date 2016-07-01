@@ -29,7 +29,7 @@ class PolcodeProductController extends Controller
         $em = $this->get('doctrine_mongodb');
 
         $polcodeProducts = $em->getRepository('PolcodeProductBundle:Product')->findAll();
-
+        
         return $this->render('polcodeproduct/index.html.twig', array(
             'polcodeProducts' => $polcodeProducts,
         ));
@@ -44,7 +44,24 @@ class PolcodeProductController extends Controller
      */
     public function showAction(Product $polcodeProduct)
     {
+        
+        $em = $this->get('doctrine_mongodb');
+        $polcodeProduct->setTranslatableLocale('fr_fr');
+        
+        $polcodeProduct = $em->getRepository('PolcodeProductBundle:Product')->find($polcodeProduct->getId());
+        
+        echo '<pre>';
+        print_r($polcodeProduct->getName());
+        //print_r($polcodeProduct->getSlug());
+        //print_r($polcodeProduct->getDescription());
+        echo '</pre>';
+        
 
+//        echo '<pre>';
+//        print_r(\Doctrine\Common\Util\Debug::dump($polcodeProduct));
+//        echo '</pre>';
+        die;
+        
         return $this->render('polcodeproduct/show.html.twig', array(
             'polcodeProduct' => $polcodeProduct,
         ));

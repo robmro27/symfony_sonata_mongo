@@ -25,12 +25,14 @@ class ProductAdmin extends AbstractAdmin
                     )
             //->add('name', 'text')
             //->add('description', 'textarea')
+//            ->with('General')
+//                ->add('title', 'translatable_field', array(
+//                    'field'                => 'name',
+//                    'personal_translation' => 'PolcodeProductBundle\Entity\Translation\ProductTranslation',
+//                    'property_path'        => 'translations',
+//                ))
+//            ->end()
             ->add('price', 'integer')
-            ->add('slug', 'text', array(
-                'help' => 'Leave empty for auto update',
-                'required' => false,
-                'attr' => array('novalidate' => 'novalidate')
-            ))    
             ->add('category', 'sonata_type_model', array(
                 'class' => 'PolcodeProductBundle\Document\ProductCategory',
                 'property' => 'name',
@@ -45,6 +47,13 @@ class ProductAdmin extends AbstractAdmin
             ->add('description')
             ->add('price')
             ->add('category.name')
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                    'delete' => array('template' => 'PolcodeProductBundle:CRUD:list__action_delete.html.twig'),
+                )
+            ))
         ;
     }
     

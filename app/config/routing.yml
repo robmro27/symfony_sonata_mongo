@@ -1,7 +1,9 @@
 polcode_product:
     resource: "@PolcodeProductBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}/
+    requirements:
+        _locale: fr|en|de|pl
 
 sonata_user_security:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_security_1.xml"

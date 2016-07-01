@@ -11,10 +11,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class ProductTranslation extends AbstractPersonalTranslation
 {
     
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="PolcodeProductBundle\Document\Product", inversedBy="translations")
-     *
-     */
-    public $object;
+    
+    /** @MongoDB\ReferenceOne(targetDocument="Product", inversedBy="translations", cascade={"persist", "remove"}) */
+    protected $object;
     
 }

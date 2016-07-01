@@ -5,6 +5,7 @@ namespace PolcodeProductBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @MongoDB\Document
@@ -43,7 +44,7 @@ class Product implements Translatable
     private $price;
     
 
-    /** @MongoDB\ReferenceOne(targetDocument="ProductCategory", inversedBy="products", cascade={"detach"}) */
+    /** @MongoDB\ReferenceOne(targetDocument="ProductCategory", inversedBy="products", cascade={"persist", "remove"}) */
     private $category;
     
     
@@ -72,13 +73,17 @@ class Product implements Translatable
     private $contentChanged;
 
     
-    /**
-    *
-    * @MongoDB\ReferenceMany(targetDocument="PolcodeProductBundle\Document\ProductTranslation", mappedBy="object", cascade={"all"})
-    *
-    */
+    
+    /** @MongoDB\ReferenceMany(targetDocument="ProductTranslation", mappedBy="object", cascade={"persist", "remove"}) */
     private $translations;
 
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
+    
     public function __construct()
     {
        $this->translations = new ArrayCollection();
@@ -299,4 +304,32 @@ class Product implements Translatable
     {
         return $this->translations;
     }
+    
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+    
+    
+    
+//    public function __call($name, $arguments) {
+//    
+//        $name = strtolower(substr($name, 3));
+//        
+////        echo '<pre>';
+////        print_r($name);
+////        echo '</pre>';
+////        die;
+//        
+//        foreach ( $this->getTranslations() as $translation ) {
+//            
+//            echo '<pre>';
+//            print_r( \Doctrine\Common\Util\Debug::dump( $translation ) );
+//            echo '</pre>';
+//            
+//        }
+//        
+//        die;
+//    }
+    
 }
