@@ -1,9 +1,9 @@
 polcode_product:
     resource: "@PolcodeProductBundle/Controller/"
     type:     annotation
-    prefix:   /{_locale}/
+    prefix:   /{_locale}
     requirements:
-        _locale: fr|en|de|pl
+        _locale: |fr|en|de|pl
 
 sonata_user_security:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_security_1.xml"
@@ -32,9 +32,9 @@ sonata_user_admin_resetting:
     resource: '@SonataUserBundle/Resources/config/routing/admin_resetting.xml'
     prefix: /admin/resetting
 
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+#app:
+#    resource: "@AppBundle/Controller/"
+#    type:     annotation
     
 admin_area:
     resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"

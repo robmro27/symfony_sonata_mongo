@@ -13,14 +13,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * PolcodeProduct controller.
  *
- * @Route("/product")
+ * @Route("/")
  */
 class PolcodeProductController extends Controller
 {
     /**
      * Lists all PolcodeProduct entities.
      *
-     * @Route("/", name="product_index")
+     * @Route("/", name="product_index" , defaults={"locale" = "pl"})
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')") 
      * @Method("GET")
      */
@@ -49,19 +49,7 @@ class PolcodeProductController extends Controller
         $polcodeProduct->setTranslatableLocale('fr_fr');
         
         $polcodeProduct = $em->getRepository('PolcodeProductBundle:Product')->find($polcodeProduct->getId());
-        
-        echo '<pre>';
-        print_r($polcodeProduct->getName());
-        //print_r($polcodeProduct->getSlug());
-        //print_r($polcodeProduct->getDescription());
-        echo '</pre>';
-        
-
-//        echo '<pre>';
-//        print_r(\Doctrine\Common\Util\Debug::dump($polcodeProduct));
-//        echo '</pre>';
-        die;
-        
+             
         return $this->render('polcodeproduct/show.html.twig', array(
             'polcodeProduct' => $polcodeProduct,
         ));

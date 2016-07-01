@@ -1,4 +1,59 @@
 services:
-#    polcode_product.example:
-#        class: PolcodeProductBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    
+    admin.product_category:
+        class: PolcodeProductBundle\Admin\ProductCategoryAdmin
+        arguments: [~, PolcodeProductBundle\Document\ProductCategory, ~]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Categories, group: Products }
+
+    admin.product:
+        class: PolcodeProductBundle\Admin\ProductAdmin
+        arguments: [~, PolcodeProductBundle\Document\Product, PolcodeProductBundle:ProductCRUD]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: Products, group: Products }
+
+    admin.converter.doctrine.mongodb:
+        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter
+        arguments: [@doctrine_mongodb]
+        tags:
+            - { name: request.param_converter }
+
+    extension.listener:
+        class: PolcodeProductBundle\Listener\DoctrineExtensionListener
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+        tags:
+            # translatable sets locale after router processing
+            - { name: kernel.event_listener, event: kernel.request, method: onLateKernelRequest, priority: -10 }
+            # loggable hooks user username if one is in security context
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            # translatable sets locale such as default application locale before command execute
+            - { name: kernel.event_listener, event: console.command, method: onConsoleCommand, priority: -10 }
+
+    gedmo.listener.translatable:
+        class: Gedmo\Translatable\TranslatableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - [ setDefaultLocale, [ %locale% ] ]
+            - [ setTranslationFallback, [ false ] ]
+
+    gedmo.listener.loggable:
+        class: Gedmo\Loggable\LoggableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]  
+
+    form.type.translatable:
+        class: PolcodeProductBundle\Form\TranslatedFieldType
+        arguments: [ @service_container ]
+        tags:
+            - { name: form.type, alias: translatable_field }
+
+    app.menu_builder:
+        class: PolcodeProductBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory","@doctrine.odm.mongodb.document_manager", '@security.authorization_checker']
+        tags:
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
