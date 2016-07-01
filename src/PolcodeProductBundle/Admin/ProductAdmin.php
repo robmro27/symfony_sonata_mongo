@@ -20,23 +20,37 @@ class ProductAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('translations', 'a2lix_translations_gedmo'
-                    ,array('translatable_class' => "PolcodeProductBundle\Document\Product")
-                    )
-            //->add('name', 'text')
-            //->add('description', 'textarea')
-//            ->with('General')
-//                ->add('title', 'translatable_field', array(
-//                    'field'                => 'name',
-//                    'personal_translation' => 'PolcodeProductBundle\Entity\Translation\ProductTranslation',
-//                    'property_path'        => 'translations',
-//                ))
-//            ->end()
-            ->add('price', 'integer')
-            ->add('category', 'sonata_type_model', array(
-                'class' => 'PolcodeProductBundle\Document\ProductCategory',
-                'property' => 'name',
-            ))
+            ->with('Translations')
+                ->add('translations', 'a2lix_translations_gedmo'
+                        ,array(
+                'translatable_class' => "PolcodeProductBundle\Document\Product",            
+                'fields' => array(                      // [optional] Manual configuration of fields to display and options. If not specified, all translatable fields will be display, and options will be auto-detected
+                    'name' => array(
+                        'label' => 'Name',              // [optional] Custom label. Ucfirst, otherwise
+                        'field_type' => 'text',           // [optional] Custom type
+                        'trim' => true,
+                        'required' => true
+                    ),
+                    'slug' => array(
+                        'label' => 'Slug (Leave empty for auto update)',              // [optional] Custom label. Ucfirst, otherwise
+                        'field_type' => 'text',           // [optional] Custom type
+                        'trim' => true,
+                        'required' => false,
+                    ), 
+                    'description' => array(
+                        'label' => 'Description',              // [optional] Custom label. Ucfirst, otherwise
+                        'field_type' => 'textarea',           // [optional] Custom type
+                        'required' => true,
+                    ))))
+            ->end()    
+                
+            ->with('General')   
+                ->add('price', 'integer')
+                ->add('category', 'sonata_type_model', array(
+                    'class' => 'PolcodeProductBundle\Document\ProductCategory',
+                    'property' => 'name',
+                ))
+            ->end()
         ;
     }
 
